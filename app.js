@@ -14,8 +14,6 @@ app.use('/order', orderRoutes);
 
 // app.use(req,res,next)=>{
 //     const = new 
-// }
 
-// add new changes
 
 module.exports = app;
