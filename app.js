@@ -1,11 +1,28 @@
 const express = require("express");
 const app = express(); //just execute like a function
 const morgan = require('morgan');
+const bodyParser = require('body-parser'); // handle to request body parms
 
 const productRoutes = require("./api/routes/product");
 const orderRoutes = require("./api/routes/order");
 
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+//header to allow access to the multiple clients
+app.use((req, res, next)=>{
+    res.header("Access-control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Request-with, Content-Type, Accept, Authorization"
+    );
+    if(res.method === 'OPITION'){
+        res.header('Access-Control-Allow-Methods','PUT, POST, PATCH, DELETE, GET')
+        return res.status(200).json({})
+    }
+    next();
+})
 
 //"use()" is used for middleware
 // Routes which handle the requests
