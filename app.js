@@ -4,14 +4,12 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser"); // handle to request body parms
 const mongoose = require("mongoose");
 
-
 const productRoutes = require("./api/routes/product");
 const orderRoutes = require("./api/routes/order");
-// const product = require("./api/models/product");
 
 mongoose.connect(
   "mongodb+srv://node-shop:node-shop@node-rest-shop.yabwjjz.mongodb.net/?retryWrites=true&w=majority"
-); 
+);
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,8 +29,9 @@ app.use((req, res, next) => {
   next();
 });
 
-//"use()" is used for middleware
-// Routes which handle the requests
+//"use()" is used for middleware, Routes which handle the requests
+// upload : file public accessable ? http://localhost:3000/uploads/2023-11-15T09-40-53.934ZCapture.PNG
+app.use("/uploads", express.static("uploads"));
 app.use("/product", productRoutes);
 app.use("/order", orderRoutes);
 
