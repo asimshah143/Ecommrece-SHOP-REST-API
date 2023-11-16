@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 
 const productRoutes = require("./api/routes/product");
 const orderRoutes = require("./api/routes/order");
+const userRoutes = require("./api/routes/user");
 
 mongoose.connect(
   "mongodb+srv://node-shop:node-shop@node-rest-shop.yabwjjz.mongodb.net/?retryWrites=true&w=majority"
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static("uploads"));
 app.use("/product", productRoutes);
 app.use("/order", orderRoutes);
+app.use("/user", userRoutes);
 
 // if user hit unknown path
 app.use((req, res, next) => {
