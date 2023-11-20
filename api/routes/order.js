@@ -3,8 +3,9 @@ const route = express.Router();
 const mongoose = require("mongoose");
 const Order = require("../models/order");
 const Product = require("../models/product");
+const checkAuth = require('../middleware/check-auth')
 
-route.get("/", (req, res, next) => {
+route.get("/", checkAuth, (req, res, next) => {
   Order.find()
     .select("product quantity _id")
     .populate('product','name')
@@ -32,7 +33,7 @@ route.get("/", (req, res, next) => {
     });
 });
 
-route.post("/", (req, res, next) => {
+route.post("/", checkAuth, (req, res, next) => {
   Product.findById(req.body.productId).then((product) => {
     if (!product) {
       return res.status(404).json({
@@ -70,7 +71,7 @@ route.post("/", (req, res, next) => {
   });
 });
 
-route.get("/:orderId", (req, res, next) => {
+route.get("/:orderId", checkAuth, (req, res, next) => {
   Order.findById(req.params.orderId)
     .populate('product')
     .exec()
@@ -95,7 +96,7 @@ route.get("/:orderId", (req, res, next) => {
     });
 });
 
-route.delete("/:orderId", (req, res, next) => {
+route.delete("/:orderId", checkAuth, (req, res, next) => {
   Order.deleteOne({ _id: req.params.orderId })
     .exec()
     .then(result => {
@@ -118,7 +119,7 @@ route.delete("/:orderId", (req, res, next) => {
     });
 });
 
-route.patch("/", (req, res, next) => {
+route.patch("/", checkAuth, (req, res, next) => {
   res.status(200).json({
     message: "order deleted",
   });
